@@ -1,4 +1,4 @@
-package empty_struct
+package main
 
 import "testing"
 

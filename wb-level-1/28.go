@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// Реализовать паттерн адаптер на любом примере.
+
 func main() {
 	p := Person{
 		Name:    "John",

@@ -11,10 +11,10 @@ import (
 func main() {
 	a := big.NewInt(10)
 	b := big.NewInt(5)
-	fmt.Printf("%v+%v=%v\n",a,b,Sum(a,b))
-	fmt.Printf("%v-%v=%v\n",a,b,Sub(a,b))
-	fmt.Printf("%v*%v=%v\n",a,b,Mul(a,b))
-	fmt.Printf("%v/%v=%v\n",a,b,Div(a,b))
+	fmt.Printf("%v+%v=%v\n", a, b, Sum(a, b))
+	fmt.Printf("%v-%v=%v\n", a, b, Sub(a, b))
+	fmt.Printf("%v*%v=%v\n", a, b, Mul(a, b))
+	fmt.Printf("%v/%v=%v\n", a, b, Div(a, b))
 }
 
 func Sum(a, b *big.Int) *big.Int {

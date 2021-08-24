@@ -1,13 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 // Написать быструю сортировку встроенными методами языка.
 
 func main() {
-	s := []int{75, 34, 32, 353, 3, 747, 21, 65, 9, 454, 35, 75, 235, 3, 65, 65, 65}
-	QuickSort(s)
-	fmt.Println(s)
+	s1 := []int{75, 34, 32, 353, 3, 747, 21, 65, 9, 454, 35, 75, 235, 3, 65, 65, 65}
+	s2 := []int{75, 34, 32, 353, 3, 747, 21, 65, 9, 454, 35, 75, 235, 3, 65, 65, 65}
+	QuickSort(s1)
+	sort.Ints(s2)
+	fmt.Println(s1)
+	fmt.Println(s2)
 }
 
 func QuickSort(s []int) {

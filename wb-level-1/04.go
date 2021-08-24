@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"os"
 	"os/signal"
@@ -14,9 +15,14 @@ import (
 //Необходима возможность выбора кол-во воркеров при старте, а также способ
 //завершения работы всех воркеров.
 
+
 func main() {
+	nFlag := flag.Int("n", 10, "help message for flag n")
+	flag.Parse()
+
+	n := *nFlag
+
 	ctx, cancel := context.WithCancel(context.Background())
-	n := 10
 
 	c := startPrinters(ctx, n)
 

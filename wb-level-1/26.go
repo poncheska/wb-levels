@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 )
 
@@ -10,15 +9,15 @@ import (
 func main() {
 	s := "йцукенгшщзqwertyuiop12345!№;%:?"
 	fmt.Println(reverseString(s))
+	fmt.Println(s)
 }
 
-func reverseString(s string) string{
-	var buffer bytes.Buffer
-	sr := []rune(s)
+func reverseString(s string) string {
+	res := []rune(s)
 
-	for i := 0; i < len(sr); i++ {
-		buffer.WriteRune(sr[len(sr)-1-i])
+	for i := 0; i < len(res)/2; i++ {
+		res[i], res[len(res)-1-i] = res[len(res)-1-i], res[i]
 	}
 
-	return buffer.String()
+	return string(res)
 }
