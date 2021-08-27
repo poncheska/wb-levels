@@ -52,14 +52,14 @@ unsafe.Sizeof(struct{}{})    // 0
 6. (https://stackoverflow.com/questions/29164375/correct-way-to-initialize-empty-slice)
  По функциональности nil slice и slice нулевого обьема эквивалентны. Они имеют нулевой обьем и могут быть
 увеличены функцией append().
-var a []int    //
-a := []int{}   //
+var a []int    // стоит использовать когда не будет случаев в которых такой подход может вызвать проблемы.
+a := []int{}   // стоит использовать если нужно парсить слайс, например, в json.
 
 7.
 Создать перегрузку нельзя, но есть встроенные функции с перегрузкой, например, make([]int)/make([]int,l)/make([]int,l,c)
 
 8. (https://blog.golang.org/maps#TOC_7.)
-При обходе циклом(for k,v := range m{...}) элементы будут выведены в случайном порядке.
+При обходе циклом(for k, v := range m{...}) элементы будут выведены в случайном порядке.
 
 9. (https://programming.vip/docs/the-difference-between-new-and-make-in-golang.html#:~:text=In%20golang%2C%20both%20make%20and,make%20allocates%20and%20initializes%20memory.)
 new() - алоцирует память и возвращает указатель заданного типа с нулевым значением.
@@ -85,6 +85,7 @@ intSlice := intArray[0:10]            // len=10 cap=20
 
 map:
 var intMap map[int]int                // значение nil для использования необходимо присвоить инициализированное значение
+var intMap = new(map[int]int)         // значение nil для использования необходимо присвоить инициализированное значение
 var intMap = map[int]int{}
 var intMap = make(map[int]int)
 var intMap = make(map[int]int, 10)
