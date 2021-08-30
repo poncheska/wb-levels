@@ -17,7 +17,7 @@ import (
 
 
 func main() {
-	nFlag := flag.Int("n", 10, "help message for flag n")
+	nFlag := flag.Int("n", 10, "number of spammers")
 	flag.Parse()
 
 	n := *nFlag

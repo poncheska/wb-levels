@@ -7,7 +7,6 @@ import (
 
 // Написать программу, которая в рантайме способна определить тип
 // переменной — int, string, bool, channel из переменной типа interface{}.
-// (https://tour.golang.org/methods/16)
 
 func main() {
 	ch := make(chan int)

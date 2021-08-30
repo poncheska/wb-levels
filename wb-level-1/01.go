@@ -1,14 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // Реализовать композицию структуры Action от родительской структуры Human.
 
 func main() {
-	a1 := ActionEmbedded{Human{}}
-	a2 := ActionComposed{h: Human{}}
-	a1.jump()
-	a2.jump()
+	a1 := ActionEmbedded{NewHuman()}
+	a2 := ActionComposed{h: NewHuman()}
+	a1.Jump()
+	a2.Jump()
 	fmt.Println(a1.log)
 	fmt.Println(a2.h.log)
 }
@@ -17,18 +19,22 @@ type Human struct {
 	log string
 }
 
-type ActionEmbedded struct {
-	Human
+func NewHuman() *Human{
+	return &Human{}
 }
 
-func (ae *ActionEmbedded) jump(){
+type ActionEmbedded struct {
+	*Human
+}
+
+func (ae *ActionEmbedded) Jump(){
 	ae.log += "jumped\n"
 }
 
 type ActionComposed struct {
-	h Human
+	h *Human
 }
 
-func (ac *ActionComposed) jump(){
+func (ac *ActionComposed) Jump(){
 	ac.h.log += "jumped\n"
 }
