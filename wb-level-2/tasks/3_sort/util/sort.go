@@ -71,7 +71,7 @@ func (s *Settings) GetHandler(ss []string) (sort.Interface, error) {
 	}
 }
 
-func Sort(input io.Reader, ss *Settings) (string, error){
+func Sort(input io.Reader, ss *Settings) (string, error) {
 	var s []string
 	unq := make(map[string]bool)
 
@@ -79,7 +79,7 @@ func Sort(input io.Reader, ss *Settings) (string, error){
 	for sc.Scan() {
 		if ss.F.UnqFlag && !ss.F.ChkFlag {
 			text := sc.Text()
-			if !unq[text]{
+			if !unq[text] {
 				unq[text] = true
 				s = append(s, text)
 			}
@@ -96,7 +96,7 @@ func Sort(input io.Reader, ss *Settings) (string, error){
 		h = sort.Reverse(h)
 	}
 
-	if ss.F.ChkFlag{
+	if ss.F.ChkFlag {
 		if sort.IsSorted(h) {
 			return "строки отсортированы", nil
 		} else {
@@ -104,6 +104,6 @@ func Sort(input io.Reader, ss *Settings) (string, error){
 		}
 	} else {
 		sort.Sort(h)
-		return strings.Join(s,"\n"), nil
+		return strings.Join(s, "\n"), nil
 	}
 }
