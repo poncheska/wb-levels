@@ -1,0 +1,6 @@
+0 * qwwqqq
+1   qqqqqq
+3   qqqqqq
+4 * qqqwwq
+5   qqqqqq
+6 * qqqqww
