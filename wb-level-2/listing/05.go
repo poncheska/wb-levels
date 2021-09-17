@@ -1,21 +1,30 @@
 package main
 
-import (
-	"fmt"
-	"os"
-)
+type customError struct {
+	msg string
+}
 
-func Foo() error {
-	var err *os.PathError = nil
-	return err
+func (e *customError) Error() string {
+	return e.msg
+}
+
+func test1() *customError {
+	{
+		// do something
+	}
+	return nil
 }
 
 func main() {
-	err := Foo()
+	var err error
+	err = test1()
 	//fmt.Printf("%#v\t%#v\n", nil, err)   // <nil>   (*main.customError)(nil)
 	// (https://medium.com/golangspec/equality-in-golang-ff44da79b7f1)
 	// Неравенство будет выполнено, так как для выполнения равенства err == nil необходимо, чтобы сравниваемые
 	// величины имели одинаковый тип и значение, в данном случае совпадает только значение.
-	fmt.Println(err)
-	fmt.Println(err == nil)
+	if err != nil {            // условие выполнено
+		println("error") // error
+		return                 // здесь программа завершится
+	}
+	println("ok")
 }

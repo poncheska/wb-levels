@@ -26,6 +26,6 @@ func anotherTest() int {
 
 
 func main() {
-	fmt.Println(test())
-	fmt.Println(anotherTest())
+	fmt.Println(test())		   // 2
+	fmt.Println(anotherTest()) // 1
 }

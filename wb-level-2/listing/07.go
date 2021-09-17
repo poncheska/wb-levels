@@ -34,6 +34,7 @@ func merge(a, b <-chan int) <-chan int {
 				c <- v
 			}
 		}
+		// если заменить цикл на такой, то все будет работать
 		//for {
 		//	if a==nil && b==nil{
 		//		close(c)
@@ -58,6 +59,7 @@ func merge(a, b <-chan int) <-chan int {
 	return c
 }
 
+// лучше использовать такой мерж
 func normMerge(a, b <-chan int) <-chan int {
 	c := make(chan int)
 	wg := sync.WaitGroup{}
