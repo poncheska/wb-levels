@@ -37,26 +37,31 @@ func main() {
 
 	close(cc)
 
-	<- waitCh
+	<-waitCh
 }
 
+//Mail ...
 type Mail interface {
 	Send(m string)
 	SendAll(m []string)
 }
 
+//MailService ...
 type MailService struct{}
 
+//NewMailService ...
 func NewMailService() *MailService {
 	return &MailService{}
 }
 
+//Send ...
 func (s *MailService) Send(m string) {
 	fmt.Println("Exec Send")
 	fmt.Println(m)
 	// TODO
 }
 
+//SendAll ...
 func (s *MailService) SendAll(m []string) {
 	fmt.Println("Exec SendAll")
 	for _, v := range m {
@@ -65,25 +70,30 @@ func (s *MailService) SendAll(m []string) {
 	// TODO
 }
 
+//UserService ...
 type UserService struct {
 	mail Mail
 }
 
+//NewUserService ...
 func NewUserService(mail Mail) *UserService {
 	return &UserService{
 		mail: mail,
 	}
 }
 
+//Command ...
 type Command interface {
 	Execute()
 }
 
+//SendMessageCommand ...
 type SendMessageCommand struct {
 	M string
 	s Mail
 }
 
+//SendMessage ...
 func (s *UserService) SendMessage(m string) Command {
 	return &SendMessageCommand{
 		M: m,
@@ -91,15 +101,18 @@ func (s *UserService) SendMessage(m string) Command {
 	}
 }
 
+//Execute ...
 func (c *SendMessageCommand) Execute() {
 	c.s.Send(c.M)
 }
 
+//SendMessagesCommand ...
 type SendMessagesCommand struct {
 	M []string
 	s Mail
 }
 
+//SendMessages ...
 func (s *UserService) SendMessages(m []string) Command {
 	return &SendMessagesCommand{
 		M: m,
@@ -107,6 +120,7 @@ func (s *UserService) SendMessages(m []string) Command {
 	}
 }
 
+//Execute ...
 func (c *SendMessagesCommand) Execute() {
 	c.s.SendAll(c.M)
 }

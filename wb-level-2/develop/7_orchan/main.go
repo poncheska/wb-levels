@@ -28,6 +28,7 @@ func main() {
 	fmt.Printf("done after %v", time.Since(start))
 }
 
+//OrChan ...
 func OrChan(channels ...<-chan interface{}) <-chan interface{} {
 	res := make(chan interface{})
 	isCanc := false

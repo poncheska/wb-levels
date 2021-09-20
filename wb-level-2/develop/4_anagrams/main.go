@@ -23,7 +23,7 @@ func newAnagram(s string) *anagram {
 	rs := []rune(s)
 
 	for _, v := range rs {
-		m[v] += 1
+		m[v]++
 	}
 
 	e[s] = struct{}{}
@@ -44,9 +44,8 @@ func (a *anagram) joinIfOk(s string) bool {
 	for _, v := range rs {
 		if m[v] == 0 {
 			return false
-		} else {
-			m[v] -= 1
 		}
+		m[v]--
 	}
 
 	for _, v := range m {
@@ -60,9 +59,10 @@ func (a *anagram) joinIfOk(s string) bool {
 	return true
 }
 
+//GetElem ...
 func (a *anagram) GetElem() (string, []string) {
 	res := make([]string, 0, len(a.elem))
-	for k, _ := range a.elem {
+	for k := range a.elem {
 		res = append(res, k)
 	}
 	sort.Strings(res)
@@ -77,6 +77,7 @@ func copyMap(m map[rune]int) map[rune]int {
 	return cp
 }
 
+//Anagrams ...
 func Anagrams(s []string) map[string][]string {
 	var as []*anagram
 	for _, v := range s {

@@ -27,6 +27,7 @@ func main() {
 	}
 }
 
+//Telnet ...
 func Telnet(timeout time.Duration, host, port string) error {
 	addr := net.JoinHostPort(host, port)
 	client := NewClient(addr, timeout, os.Stdin, os.Stdout)
@@ -80,6 +81,7 @@ func Telnet(timeout time.Duration, host, port string) error {
 	return err
 }
 
+//Client ...
 type Client struct {
 	addr       string
 	timeout    time.Duration
@@ -89,6 +91,7 @@ type Client struct {
 	out        io.Writer
 }
 
+//NewClient ...
 func NewClient(addr string, timeout time.Duration, in io.Reader, out io.Writer) *Client {
 	return &Client{
 		addr:    addr,
@@ -98,6 +101,7 @@ func NewClient(addr string, timeout time.Duration, in io.Reader, out io.Writer) 
 	}
 }
 
+//Connect ...
 func (c *Client) Connect() error {
 	conn, err := net.DialTimeout("tcp", c.addr, c.timeout)
 	if err != nil {
@@ -109,6 +113,7 @@ func (c *Client) Connect() error {
 	return nil
 }
 
+//Receive ...
 func (c *Client) Receive() error {
 	line, err := c.connReader.ReadBytes('\n')
 	if err != nil {
@@ -120,6 +125,7 @@ func (c *Client) Receive() error {
 	return nil
 }
 
+//Send ...
 func (c *Client) Send() error {
 	line, err := c.in.ReadBytes('\n')
 	if err != nil {
@@ -132,6 +138,7 @@ func (c *Client) Send() error {
 	return nil
 }
 
+//Close ...
 func (c *Client) Close() error {
 	err := c.conn.Close()
 	if err != nil {

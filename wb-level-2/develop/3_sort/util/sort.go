@@ -2,7 +2,6 @@ package util
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"io"
 	"sort"
@@ -13,15 +12,18 @@ import (
 
 type handlerFunc func([]string, *Flags) error
 
+//Settings ...
 type Settings struct {
 	F *Flags
 	I *IncompatibleFlags
 }
 
+//NewSettings ...
 func NewSettings(f *Flags, i *IncompatibleFlags) *Settings {
 	return &Settings{F: f, I: i}
 }
 
+//Flags ...
 type Flags struct {
 	KeyFlag int  // -k
 	RevFlag bool // -r
@@ -30,20 +32,24 @@ type Flags struct {
 	ChkFlag bool // -c
 }
 
+//NewFlags ...
 func NewFlags(keyFlag int, revFlag bool, unqFlag bool, bckFlag bool, chkFlag bool) *Flags {
 	return &Flags{KeyFlag: keyFlag, RevFlag: revFlag, UnqFlag: unqFlag, BckFlag: bckFlag, ChkFlag: chkFlag}
 }
 
+//IncompatibleFlags ...
 type IncompatibleFlags struct {
 	Num bool // -n
 	Mon bool // -M
 	Hum bool // -h
 }
 
+//NewIncompatibleFlags ...
 func NewIncompatibleFlags(num bool, mon bool, hum bool) *IncompatibleFlags {
 	return &IncompatibleFlags{Num: num, Mon: mon, Hum: hum}
 }
 
+//GetHandler ...
 func (s *Settings) GetHandler(ss []string) (sort.Interface, error) {
 	errFlags := make([]byte, 0, 3)
 	var h sort.Interface
@@ -67,10 +73,11 @@ func (s *Settings) GetHandler(ss []string) (sort.Interface, error) {
 	case 1:
 		return h, nil
 	default:
-		return nil, errors.New(fmt.Sprintf("параметров «-%v» несовместимо", string(errFlags)))
+		return nil, fmt.Errorf("параметров «-%v» несовместимо", string(errFlags))
 	}
 }
 
+//Sort ...
 func Sort(input io.Reader, ss *Settings) (string, error) {
 	var s []string
 	unq := make(map[string]bool)
@@ -99,11 +106,9 @@ func Sort(input io.Reader, ss *Settings) (string, error) {
 	if ss.F.ChkFlag {
 		if sort.IsSorted(h) {
 			return "строки отсортированы", nil
-		} else {
-			return "строки не отсортированы", nil
 		}
-	} else {
-		sort.Sort(h)
-		return strings.Join(s, "\n"), nil
+		return "строки не отсортированы", nil
 	}
+	sort.Sort(h)
+	return strings.Join(s, "\n"), nil
 }

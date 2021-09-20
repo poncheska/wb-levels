@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	mh := NewMainHandler()
+	mh := NewLastHandler()
 
 	am := NewAuthMiddleware()
 	am.SetNext(mh)
@@ -19,38 +19,47 @@ func main() {
 	lm.Handle(&Request{false, true})
 }
 
+//Request ...
 type Request struct {
 	loggerError bool
 	authError   bool
 }
 
-type MainHandler struct{}
+//LastHandler ...
+type LastHandler struct{}
 
-func NewMainHandler() *MainHandler {
-	return &MainHandler{}
+//NewLastHandler ...
+func NewLastHandler() *LastHandler {
+	return &LastHandler{}
 }
 
-func (h *MainHandler) Handle(r *Request) {
+//Handle ...
+func (h *LastHandler) Handle(r *Request) {
 	fmt.Println("main handler done")
 }
 
+//Handler ...
 type Handler interface {
 	Handle(r *Request)
 }
 
+//LogsMiddleware ...
 type LogsMiddleware struct {
 	next Handler
 	// ...
 }
 
+//NewLogsMiddleware ...
 func NewLogsMiddleware() *LogsMiddleware {
 	return &LogsMiddleware{}
 }
 
+//SetNext ...
 func (m *LogsMiddleware) SetNext(next Handler) {
 	m.next = next
 }
 
+//Handle ...
 func (m *LogsMiddleware) Handle(r *Request) {
 	if r.loggerError {
 		fmt.Println("logger error")
@@ -63,19 +72,23 @@ func (m *LogsMiddleware) Handle(r *Request) {
 	}
 }
 
+//AuthMiddleware ...
 type AuthMiddleware struct {
 	next Handler
 	// ...
 }
 
+//NewAuthMiddleware ...
 func NewAuthMiddleware() *AuthMiddleware {
 	return &AuthMiddleware{}
 }
 
+//SetNext ...
 func (m *AuthMiddleware) SetNext(next Handler) {
 	m.next = next
 }
 
+//Handle ...
 func (m *AuthMiddleware) Handle(r *Request) {
 	if r.authError {
 		fmt.Println("auth error")

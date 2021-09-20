@@ -77,7 +77,6 @@ func TestGrep(t *testing.T) {
 			false,
 			NewSettings(0, 0, 0, false, false, false, false, false),
 		},
-
 	}
 
 	for _, v := range tests {

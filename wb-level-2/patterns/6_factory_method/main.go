@@ -16,7 +16,8 @@ func main() {
 	fmt.Printf("%#v\t%#v\n", db, err)
 }
 
-func GetDB(name string) (DB,error) {
+//GetDB ...
+func GetDB(name string) (DB, error) {
 	switch name {
 	case "postgres":
 		return NewPostgresDB(), nil
@@ -27,39 +28,48 @@ func GetDB(name string) (DB,error) {
 	}
 }
 
+//DB ...
 type DB interface {
 	SetValue(value string)
 	GetValue() string
 }
 
+//PostgresDB ...
 type PostgresDB struct {
 	val string
 }
 
+//NewPostgresDB ...
 func NewPostgresDB() *PostgresDB {
 	return &PostgresDB{}
 }
 
+//SetValue ...
 func (db *PostgresDB) SetValue(value string) {
 	db.val = value
 }
 
+//GetValue ...
 func (db *PostgresDB) GetValue() string {
 	return db.val
 }
 
+//MysqlDB ...
 type MysqlDB struct {
 	val []byte
 }
 
+//NewMysqlDB ...
 func NewMysqlDB() *MysqlDB {
 	return &MysqlDB{}
 }
 
+//SetValue ...
 func (db *MysqlDB) SetValue(value string) {
 	db.val = []byte(value)
 }
 
+//GetValue ...
 func (db *MysqlDB) GetValue() string {
 	return string(db.val)
 }

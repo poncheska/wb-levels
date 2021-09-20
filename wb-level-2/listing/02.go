@@ -24,8 +24,7 @@ func anotherTest() int {
 	return x
 }
 
-
 func main() {
-	fmt.Println(test())		   // 2
+	fmt.Println(test())        // 2
 	fmt.Println(anotherTest()) // 1
 }

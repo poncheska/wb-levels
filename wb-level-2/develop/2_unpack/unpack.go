@@ -12,6 +12,7 @@ func main() {
 	fmt.Println(Unpack("saf3saa0\\\\\\3aaa"))
 }
 
+//Unpack ...
 func Unpack(s string) (string, error) {
 	var res bytes.Buffer
 	var prevRune rune

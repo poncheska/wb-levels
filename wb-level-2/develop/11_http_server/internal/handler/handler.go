@@ -8,6 +8,7 @@ import (
 	"net/http"
 )
 
+//MarshalResult ...
 func MarshalResult(ifc interface{}) []byte {
 	res := struct {
 		Res interface{} `json:"result"`
@@ -16,6 +17,7 @@ func MarshalResult(ifc interface{}) []byte {
 	return bs
 }
 
+//MarshalError ...
 func MarshalError(err error) []byte {
 	res := struct {
 		Err string `json:"error"`
@@ -24,19 +26,22 @@ func MarshalError(err error) []byte {
 	return bs
 }
 
+//Service ...
 type Service interface {
 	CreateEvent(e domain.Event) error
 	UpdateEvent(e domain.Event) error
-	DeleteEvent(eventId string) error
-	EventsForDay(userId string) ([]domain.Event, error)
-	EventsForWeek(userId string) ([]domain.Event, error)
-	EventsForMonth(userId string) ([]domain.Event, error)
+	DeleteEvent(eventID string) error
+	EventsForDay(userID string) ([]domain.Event, error)
+	EventsForWeek(userID string) ([]domain.Event, error)
+	EventsForMonth(userID string) ([]domain.Event, error)
 }
 
+//Handler ...
 type Handler struct {
 	svc Service
 }
 
+//New ...
 func New(svc Service) *Handler {
 	return &Handler{svc: svc}
 }
@@ -103,15 +108,15 @@ func (h *Handler) updateEvent(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) deleteEvent(w http.ResponseWriter, r *http.Request) {
-	eventId, ok := r.URL.Query()["event_id"]
-	if !ok || len(eventId) < 1 {
+	eventID, ok := r.URL.Query()["event_id"]
+	if !ok || len(eventID) < 1 {
 		w.WriteHeader(400)
 		err := errors.New("request must have parameter event_id")
 		w.Write(MarshalError(err))
 		log.Println(err)
 		return
 	}
-	err := h.svc.DeleteEvent(eventId[0])
+	err := h.svc.DeleteEvent(eventID[0])
 	if err != nil {
 		w.WriteHeader(503)
 		w.Write(MarshalError(err))
@@ -123,15 +128,15 @@ func (h *Handler) deleteEvent(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) eventsForDay(w http.ResponseWriter, r *http.Request) {
-	userId, ok := r.URL.Query()["user_id"]
-	if !ok || len(userId) < 1 {
+	userID, ok := r.URL.Query()["user_id"]
+	if !ok || len(userID) < 1 {
 		w.WriteHeader(400)
 		err := errors.New("request must have parameter event_id")
 		w.Write(MarshalError(err))
 		log.Println(err)
 		return
 	}
-	res, err := h.svc.EventsForDay(userId[0])
+	res, err := h.svc.EventsForDay(userID[0])
 	if err != nil {
 		w.WriteHeader(503)
 		w.Write(MarshalError(err))
@@ -143,15 +148,15 @@ func (h *Handler) eventsForDay(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) eventsForWeek(w http.ResponseWriter, r *http.Request) {
-	userId, ok := r.URL.Query()["user_id"]
-	if !ok || len(userId) < 1 {
+	userID, ok := r.URL.Query()["user_id"]
+	if !ok || len(userID) < 1 {
 		w.WriteHeader(400)
 		err := errors.New("request must have parameter user_id")
 		w.Write(MarshalError(err))
 		log.Println(err)
 		return
 	}
-	res, err := h.svc.EventsForWeek(userId[0])
+	res, err := h.svc.EventsForWeek(userID[0])
 	if err != nil {
 		w.WriteHeader(503)
 		w.Write(MarshalError(err))
@@ -163,13 +168,13 @@ func (h *Handler) eventsForWeek(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) eventsForMonth(w http.ResponseWriter, r *http.Request) {
-	userId, ok := r.URL.Query()["user_id"]
-	if !ok || len(userId) < 1 {
+	userID, ok := r.URL.Query()["user_id"]
+	if !ok || len(userID) < 1 {
 		w.WriteHeader(400)
 		w.Write(MarshalError(errors.New("request must have parameter user_id")))
 		return
 	}
-	res, err := h.svc.EventsForMonth(userId[0])
+	res, err := h.svc.EventsForMonth(userID[0])
 	if err != nil {
 		w.WriteHeader(503)
 		w.Write(MarshalError(err))

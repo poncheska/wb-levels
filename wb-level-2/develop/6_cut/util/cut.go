@@ -7,16 +7,19 @@ import (
 	"strings"
 )
 
+//Settings ...
 type Settings struct {
 	FlagF string
 	FlagD string
 	FlagS bool
 }
 
+//NewSettings ...
 func NewSettings(flagF string, flagD string, flagS bool) *Settings {
 	return &Settings{FlagF: flagF, FlagD: flagD, FlagS: flagS}
 }
 
+//ParseF ...
 func ParseF(s string) ([]int, error) {
 	var res []int
 	ss := strings.Split(s, ",")
@@ -30,6 +33,7 @@ func ParseF(s string) ([]int, error) {
 	return res, nil
 }
 
+//Cut ...
 func Cut(r io.Reader, ss *Settings) (string, error) {
 	f, err := ParseF(ss.FlagF)
 	if err != nil {

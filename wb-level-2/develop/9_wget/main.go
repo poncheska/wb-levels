@@ -23,6 +23,7 @@ func main() {
 	}
 }
 
+//Wget ...
 func Wget(u, outDir string) error {
 	pu, err := url.Parse(u)
 	if err != nil {
@@ -65,7 +66,7 @@ func Wget(u, outDir string) error {
 		if !chr.Check(relPath) {
 			continue
 		}
-		counter ++
+		counter++
 		fmt.Printf("download in file%v.txt from %v \n", counter, relPath)
 		err = downloadFile(fmt.Sprintf("%v%v%v%v", outDir, "/file", counter, ".txt"), relPath)
 		if err != nil {
@@ -96,21 +97,21 @@ func downloadFile(filepath string, url string) error {
 	return err
 }
 
+//UniqueChecker ...
 type UniqueChecker struct {
 	m map[string]struct{}
 }
 
+//NewUniqueChecker ...
 func NewUniqueChecker() *UniqueChecker {
 	return &UniqueChecker{m: make(map[string]struct{})}
 }
 
+//Check ...
 func (c *UniqueChecker) Check(s string) bool {
 	if _, ok := c.m[s]; ok {
 		return false
-	} else {
-		c.m[s] = struct{}{}
-		return true
 	}
+	c.m[s] = struct{}{}
+	return true
 }
-
-

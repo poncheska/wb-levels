@@ -73,7 +73,7 @@ func TestUnpack(t *testing.T) {
 			res, err := Unpack(v.in)
 			if v.err {
 				assert.NotNil(t, err)
-			}else{
+			} else {
 				assert.Nil(t, err)
 				assert.Equal(t, v.out, res)
 			}

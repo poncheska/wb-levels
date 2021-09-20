@@ -10,6 +10,7 @@ import (
 	"strings"
 )
 
+//Settings ...
 type Settings struct {
 	FlagAft int  // -A
 	FlagBef int  // -B
@@ -21,6 +22,7 @@ type Settings struct {
 	FlagNum bool // -n
 }
 
+//NewSettings ...
 func NewSettings(flagAft int, flagBef int, flagCtx int, flagCnt bool, flagIgn bool, flagInv bool, flagFix bool, flagNum bool) *Settings {
 	return &Settings{
 		FlagAft: flagAft,
@@ -34,14 +36,17 @@ func NewSettings(flagAft int, flagBef int, flagCtx int, flagCnt bool, flagIgn bo
 	}
 }
 
+//Checker ...
 type Checker interface {
 	check(s string) bool
 }
 
+//RegexChecker ...
 type RegexChecker struct {
 	R *regexp.Regexp
 }
 
+//NewRegexChecker ...
 func NewRegexChecker(r *regexp.Regexp) *RegexChecker {
 	return &RegexChecker{R: r}
 }
@@ -50,10 +55,12 @@ func (c *RegexChecker) check(s string) bool {
 	return c.R.MatchString(s)
 }
 
+//EqualChecker ...
 type EqualChecker struct {
 	pat string
 }
 
+//NewEqualChecker ...
 func NewEqualChecker(pat string) *EqualChecker {
 	return &EqualChecker{pat: pat}
 }
@@ -62,6 +69,7 @@ func (c *EqualChecker) check(s string) bool {
 	return strings.Contains(s, c.pat)
 }
 
+//Grep ...
 func Grep(r io.Reader, pattern string, ss *Settings) (string, error) {
 	var chr Checker
 

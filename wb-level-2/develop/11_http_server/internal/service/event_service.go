@@ -5,44 +5,53 @@ import (
 	"time"
 )
 
+//EventService ...
 type EventService struct {
 	s Store
 }
 
+//NewEventService ...
 func NewEventService() *EventService {
 	return &EventService{s: NewEventStorage()}
 }
 
+//Store ...
 type Store interface {
 	CreateEvent(e domain.Event) error
 	UpdateEvent(e domain.Event) error
-	DeleteEvent(eventId string) error
-	GetEventsForPeriod(userId string, p1 time.Time, p2 time.Time) ([]domain.Event, error)
+	DeleteEvent(eventID string) error
+	GetEventsForPeriod(userID string, p1 time.Time, p2 time.Time) ([]domain.Event, error)
 }
 
+//CreateEvent ...
 func (s *EventService) CreateEvent(e domain.Event) error {
 	return s.s.CreateEvent(e)
 }
 
+//UpdateEvent ...
 func (s *EventService) UpdateEvent(e domain.Event) error {
 	return s.s.UpdateEvent(e)
 }
 
-func (s *EventService) DeleteEvent(eventId string) error {
-	return s.s.DeleteEvent(eventId)
+//DeleteEvent ...
+func (s *EventService) DeleteEvent(eventID string) error {
+	return s.s.DeleteEvent(eventID)
 }
 
-func (s *EventService) EventsForDay(userId string) ([]domain.Event, error) {
-	es, err := s.s.GetEventsForPeriod(userId, time.Now(), time.Now().Add(24*time.Hour))
+//EventsForDay ...
+func (s *EventService) EventsForDay(userID string) ([]domain.Event, error) {
+	es, err := s.s.GetEventsForPeriod(userID, time.Now(), time.Now().Add(24*time.Hour))
 	return es, err
 }
 
-func (s *EventService) EventsForWeek(userId string) ([]domain.Event, error) {
-	es, err := s.s.GetEventsForPeriod(userId, time.Now(), time.Now().Add(7*24*time.Hour))
+//EventsForWeek ...
+func (s *EventService) EventsForWeek(userID string) ([]domain.Event, error) {
+	es, err := s.s.GetEventsForPeriod(userID, time.Now(), time.Now().Add(7*24*time.Hour))
 	return es, err
 }
 
-func (s *EventService) EventsForMonth(userId string) ([]domain.Event, error) {
-	es, err := s.s.GetEventsForPeriod(userId, time.Now(), time.Now().Add(30*24*time.Hour))
+//EventsForMonth ...
+func (s *EventService) EventsForMonth(userID string) ([]domain.Event, error) {
+	es, err := s.s.GetEventsForPeriod(userID, time.Now(), time.Now().Add(30*24*time.Hour))
 	return es, err
 }

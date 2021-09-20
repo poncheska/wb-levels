@@ -6,6 +6,7 @@ import (
 	"unicode"
 )
 
+//MinInt ...
 const MinInt = -int(^uint(0)>>1) - 1
 
 type defaultHandler struct {
@@ -161,6 +162,7 @@ func parseMonSF(s []string, f *Flags) []int {
 	return res
 }
 
+//MonToNum ...
 func MonToNum(s string) int {
 	switch s {
 	case "JAN":
@@ -192,6 +194,7 @@ func MonToNum(s string) int {
 	}
 }
 
+//ParseHumNum ...
 func ParseHumNum(s string) int {
 	num, err := strconv.Atoi(s)
 	if err == nil {

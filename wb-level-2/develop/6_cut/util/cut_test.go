@@ -12,45 +12,43 @@ import (
 
 const testDataPath = "test_data/"
 
-
 func TestGrep(t *testing.T) {
 	tests := []struct {
-		name    string
-		in      string
-		out     string
-		ok      bool
-		sets    *Settings
+		name string
+		in   string
+		out  string
+		ok   bool
+		sets *Settings
 	}{
 		{
 			"ok test",
 			"test_1_in.txt",
 			"test_1_out.txt",
 			true,
-			NewSettings("1","   ",false),
+			NewSettings("1", "   ", false),
 		},
 		{
 			"only separated",
 			"test_1_in.txt",
 			"test_1_seponly_out.txt",
 			true,
-			NewSettings("1","   ",true),
+			NewSettings("1", "   ", true),
 		},
 		{
 			"custom delimiter",
 			"test_2_in.txt",
 			"test_2_out.txt",
 			true,
-			NewSettings("0,1",",",false),
+			NewSettings("0,1", ",", false),
 		},
 		{
 			"invalid fields",
 			"test_2_in.txt",
 			"",
 			false,
-			NewSettings("0,a",",",false),
+			NewSettings("0,a", ",", false),
 		},
 	}
-
 
 	for _, v := range tests {
 		t.Run(v.name, func(t *testing.T) {

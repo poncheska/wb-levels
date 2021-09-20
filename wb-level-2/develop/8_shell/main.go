@@ -157,9 +157,9 @@ func printHeader() {
 	fmt.Printf("%vgo-shell%v<%v>%v: ", green, purple, wd, nc)
 }
 
-func netcat(addr string, isUdp bool) (string, error) {
+func netcat(addr string, isUDP bool) (string, error) {
 	network := "tcp"
-	if isUdp {
+	if isUDP {
 		network = "udp"
 	}
 	con, err := net.Dial(network, addr)
