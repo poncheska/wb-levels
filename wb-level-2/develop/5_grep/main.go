@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"git.wildberries.ru/kovgar.aleksey/wb-levels/wb-level-2/tasks/5_grep/util"
+	"git.wildberries.ru/kovgar.aleksey/wb-levels/wb-level-2/develop/5_grep/util"
 	"os"
 )
 

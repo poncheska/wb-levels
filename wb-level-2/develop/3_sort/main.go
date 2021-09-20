@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"git.wildberries.ru/kovgar.aleksey/wb-levels/wb-level-2/tasks/3_sort/util"
+	"git.wildberries.ru/kovgar.aleksey/wb-levels/wb-level-2/develop/3_sort/util"
 	"os"
 )
 
