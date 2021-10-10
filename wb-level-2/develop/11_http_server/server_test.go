@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"git.wildberries.ru/kovgar.aleksey/wb-levels/wb-level-2/develop/11_http_server/internal/domain"
 	"git.wildberries.ru/kovgar.aleksey/wb-levels/wb-level-2/develop/11_http_server/internal/handler"
@@ -22,9 +23,9 @@ type doneResult struct {
 	Res string `json:"result"`
 }
 
-type errResult struct {
-	Err string `json:"error"`
-}
+//type errResult struct {
+//	Err string `json:"error"`
+//}
 
 var events = []domain.Event{
 	{
@@ -70,11 +71,19 @@ const addr = "http://127.0.0.1:8080"
 func TestServer(t *testing.T) {
 	log.SetOutput(ioutil.Discard)
 
+	svc := service.NewEventService()
+	h := handler.LoggerMiddleware(handler.New(svc))
+	srv := &http.Server{
+		Addr:    ":8080",
+		Handler: h,
+	}
+
 	go func() {
-		svc := service.NewEventService()
-		h := handler.LoggerMiddleware(handler.New(svc))
-		http.ListenAndServe(":8080", h)
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen: %s\n", err)
+		}
 	}()
+
 	time.Sleep(100 * time.Millisecond)
 
 	t.Run("create events", func(t *testing.T) {
@@ -213,4 +222,11 @@ func TestServer(t *testing.T) {
 		assert.Equal(t, 1, len(res.Res))
 		assert.Equal(t, "id4", res.Res[0].ID)
 	})
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer func() {
+		cancel()
+	}()
+
+	assert.Nil(t, srv.Shutdown(ctx))
 }
