@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	cp := NewConnPull(3)
+	cp := NewConnPool(3)
 	fmt.Println("put error: ", cp.PutConn("aaa"))
 	fmt.Println("put error: ", cp.PutConn("bbb"))
 	fmt.Println("put error: ", cp.PutConn("ccc"))
@@ -24,52 +24,52 @@ func main() {
 	fmt.Printf("get conn: %v error: %v\n", conn, err)
 }
 
-//ConnPull ...
-type ConnPull struct {
+//ConnPool ...
+type ConnPool struct {
 	Conns []string
 	Limit int
-	state ConnPullState
+	state ConnPoolState
 }
 
-//NewConnPull ...
-func NewConnPull(limit int) *ConnPull {
+//NewConnPool ...
+func NewConnPool(limit int) *ConnPool {
 	if limit < 1 {
 		limit = 1
 	}
-	cp := &ConnPull{Conns: []string{}, Limit: limit}
+	cp := &ConnPool{Conns: []string{}, Limit: limit}
 	cp.ChangeState(NewPutOnlyState(cp))
 	return cp
 }
 
 //ChangeState ...
-func (cp *ConnPull) ChangeState(s ConnPullState) {
+func (cp *ConnPool) ChangeState(s ConnPoolState) {
 	cp.state = s
 }
 
 //GetConn ...
-func (cp *ConnPull) GetConn() (string, error) {
+func (cp *ConnPool) GetConn() (string, error) {
 	conn, err := cp.state.GetConn()
 	return conn, err
 }
 
 //PutConn ...
-func (cp *ConnPull) PutConn(conn string) error {
+func (cp *ConnPool) PutConn(conn string) error {
 	return cp.state.PutConn(conn)
 }
 
-//ConnPullState ...
-type ConnPullState interface {
+//ConnPoolState ...
+type ConnPoolState interface {
 	GetConn() (string, error)
 	PutConn(conn string) error
 }
 
 //NormalState ...
 type NormalState struct {
-	cp *ConnPull
+	cp *ConnPool
 }
 
 //NewNormalState ...
-func NewNormalState(cp *ConnPull) *NormalState {
+func NewNormalState(cp *ConnPool) *NormalState {
 	return &NormalState{cp: cp}
 }
 
@@ -98,11 +98,11 @@ func (s *NormalState) PutConn(conn string) error {
 
 //GetOnlyState ...
 type GetOnlyState struct {
-	cp *ConnPull
+	cp *ConnPool
 }
 
 //NewGetOnlyState ...
-func NewGetOnlyState(cp *ConnPull) *GetOnlyState {
+func NewGetOnlyState(cp *ConnPool) *GetOnlyState {
 	return &GetOnlyState{cp: cp}
 }
 
@@ -125,11 +125,11 @@ func (s *GetOnlyState) PutConn(conn string) error {
 
 //PutOnlyState ...
 type PutOnlyState struct {
-	cp *ConnPull
+	cp *ConnPool
 }
 
 //NewPutOnlyState ...
-func NewPutOnlyState(cp *ConnPull) *PutOnlyState {
+func NewPutOnlyState(cp *ConnPool) *PutOnlyState {
 	return &PutOnlyState{cp: cp}
 }
 
